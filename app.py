@@ -46,15 +46,15 @@ def create():
             image = request.files['image']
             if image.filename == "":
                 return "There is no image to be uploaded"
-            try:
-                db.session.add(input_data)
-                db.session.commit()
-                image.filename = str(input_data.id) + ".png"
-                image.save(os.path.join(app.config["IMAGE_UPLOADS"], image.filename))
-                return redirect('/')
-            except Exception as e:
-                #There was problem when inserting new dataTechnical Detail:
-                return e
+            else:
+                try:
+                    db.session.add(input_data)
+                    db.session.commit()
+                    image.filename = str(input_data.id) + ".png"
+                    image.save(os.path.join(app.config["IMAGE_UPLOADS"], image.filename))
+                    return redirect('/')
+                except:
+                    return "There was problem when inserting new data"
     else:
         return render_template("create.html")
 
@@ -112,5 +112,6 @@ def author_article(penulis):
 @app.route("/login")
 def login():
     return render_template("login.html")
+
 if __name__ == "__main__":
     app.run(debug=True)
