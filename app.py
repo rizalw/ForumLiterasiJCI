@@ -52,8 +52,9 @@ def create():
                 image.filename = str(input_data.id) + ".png"
                 image.save(os.path.join(app.config["IMAGE_UPLOADS"], image.filename))
                 return redirect('/')
-            except:
-                return "There was problem when inserting new data.\nTechnical Detail:"
+            except Exception e:
+                #There was problem when inserting new dataTechnical Detail:
+                return e
     else:
         return render_template("create.html")
 
