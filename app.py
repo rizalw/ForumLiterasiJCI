@@ -47,15 +47,14 @@ def create():
             if image.filename == "":
                 return "There is no image to be uploaded"
             else:
-                db.session.add(input_data)
-                db.session.commit()
-                image.filename = str(input_data.id) + ".png"
-                try: 
+                try:
+                    db.session.add(input_data)
+                    db.session.commit()
+                    image.filename = str(input_data.id) + ".png"
                     image.save(os.path.join(app.config["IMAGE_UPLOADS"], image.filename))
                     return redirect('/')
-                except Exception as e:
-                    #"There was problem when inserting new data"
-                    return e
+                except:
+                    return "There was problem when inserting new data"
     else:
         return render_template("create.html")
 
@@ -115,4 +114,4 @@ def login():
     return render_template("login.html")
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug = True)
