@@ -47,14 +47,11 @@ def create():
             if image.filename == "":
                 return "There is no image to be uploaded"
             else:
-                try:
-                    db.session.add(input_data)
-                    db.session.commit()
-                    image.filename = str(input_data.id) + ".png"
-                    image.save(os.path.join(app.config["IMAGE_UPLOADS"], image.filename))
-                    return redirect('/')
-                except:
-                    return "There was problem when inserting new data"
+                db.session.add(input_data)
+                db.session.commit()
+                image.filename = str(input_data.id) + ".png"
+                image.save(os.path.join(app.config["IMAGE_UPLOADS"], image.filename))
+                return redirect('/')
     else:
         return render_template("create.html")
 
