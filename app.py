@@ -6,7 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///artikel.db'
-app.config["IMAGE_UPLOADS"] = "D:\Project\ESD\Forum Literasi\static\image"
+app.config["IMAGE_UPLOADS"] = "static/image"
 db = SQLAlchemy(app)
 
 
@@ -47,11 +47,14 @@ def create():
             if image.filename == "":
                 return "There is no image to be uploaded"
             else:
-                db.session.add(input_data)
-                db.session.commit()
-                image.filename = str(input_data.id) + ".png"
-                image.save(os.path.join(app.config["IMAGE_UPLOADS"], image.filename))
-                return redirect('/')
+                try:
+                    db.session.add(input_data)
+                    db.session.commit()
+                    image.filename = str(input_data.id) + ".png"
+                    image.save(os.path.join(app.config["IMAGE_UPLOADS"], image.filename))
+                    return redirect('/')
+                except:
+                    return "There is a problem when creating the article"
     else:
         return render_template("create.html")
 
